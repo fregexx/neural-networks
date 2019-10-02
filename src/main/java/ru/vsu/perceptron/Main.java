@@ -34,8 +34,6 @@ public class Main extends Application {
     private Canvas canvas;
     @FXML
     private Label result;
-    @FXML
-    private Button button;
 
     private Perceptron perceptron = new Perceptron(ROWS_COUNT * COLS_COUNT);
 
@@ -44,8 +42,10 @@ public class Main extends Application {
         List<Integer> inputs = getInputs();
         boolean identify = perceptron.identify(inputs);
         if(identify){
+            result.setText("Success");
             result.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
         } else {
+            result.setText("Failed");
             result.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
         }
         System.out.println();
@@ -101,9 +101,6 @@ public class Main extends Application {
     }
 
     private int getInput(WritableImage snapshot, int h, int w, int rowSize, int colSize) {
-//        GraphicsContext gc = canvas.getGraphicsContext2D();
-//        PixelWriter pixelWriter = gc.getPixelWriter();
-//        pixelWriter.setColor(100, 200, Color.RED);
         PixelReader pixelReader = snapshot.getPixelReader();
         int iMax = h + rowSize;
         int jMax = w + colSize;
@@ -126,9 +123,9 @@ public class Main extends Application {
     @FXML
     void onActonReset(ActionEvent event) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-        gc.setFill(Color.BLACK);
+        gc.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
+        result.setText("");
+        result.setBackground(null);
     }
 
     @Override
