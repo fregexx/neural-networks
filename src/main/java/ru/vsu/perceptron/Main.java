@@ -26,8 +26,8 @@ import java.util.Map;
 public class Main extends Application {
 
     private static final int BRUSH_SIZE = 10;
-    private static final int ROWS_COUNT = 5;
-    private static final int COLS_COUNT = 3;
+    private static final int ROWS_COUNT = 20;
+    private static final int COLS_COUNT = 10;
 
     private Map<List<Integer>, Integer> trainingSamples = new LinkedHashMap<>();
 
@@ -113,7 +113,7 @@ public class Main extends Application {
 
         for (int i = 0; i < ROWS_COUNT; i++) {
             for (int j = 0; j < COLS_COUNT; j++) {
-                int input = getInput(snapshot, i * colSize, j * rowSize, rowSize, colSize);
+                int input = getInput(snapshot, i * rowSize, j * colSize, rowSize, colSize);
                 inputs.add(input);
             }
         }
