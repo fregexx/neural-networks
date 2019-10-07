@@ -1,8 +1,5 @@
 package ru.vsu.perceptron;
 
-import static ru.vsu.perceptron.TrainingSamples.digits;
-import static ru.vsu.perceptron.TrainingSamples.testSamples;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,8 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -22,7 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main extends Application {
 
@@ -30,54 +29,75 @@ public class Main extends Application {
     private static final int ROWS_COUNT = 5;
     private static final int COLS_COUNT = 3;
 
+    private Map<List<Integer>, Integer> trainingSamples = new LinkedHashMap<>();
+
     @FXML
     private Canvas canvas;
     @FXML
     private Label result;
+    @FXML
+    private TextField trainingSamplesCountTextField;
+
+    @FXML
+    void onActionAddTrainingSample(ActionEvent event) {
+        List<Integer> inputs = getInputs();
+
+        if (inputs.stream().allMatch(v -> v.equals(0))) {
+            result.setText("Error: all inputs = 0");
+            return;
+        }
+
+        if (trainingSamples.isEmpty()) {
+            trainingSamples.put(inputs, 1);
+        } else {
+            trainingSamples.put(inputs, 0);
+        }
+        trainingSamplesCountTextField.setText(String.valueOf(trainingSamples.size()));
+        clearCanvas();
+    }
 
     private Perceptron perceptron = new Perceptron(ROWS_COUNT * COLS_COUNT);
 
     @FXML
-    void onActonIdentify(ActionEvent event) {
+    void onActionIdentify(ActionEvent event) {
         List<Integer> inputs = getInputs();
         boolean identify = perceptron.identify(inputs);
-        if(identify){
+        if (identify) {
             result.setText("Success");
             result.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
         } else {
             result.setText("Failed");
             result.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
         }
-        System.out.println();
     }
 
     @FXML
-    void onActonTrain(ActionEvent event) {
+    void onActionTrain(ActionEvent event) {
         for (int i = 0; i < 30; i++) {
             System.out.println("==iteration " + i + " ==");
-            perceptron.train(digits);
+            perceptron.train(trainingSamples);
             System.out.println("Trained weights: " + perceptron.getWeights());
 
-            digits.forEach((k, v) -> {
-                boolean b = perceptron.identify(k);
-                if (b) {
-                    System.out.println("EQUAL");
-                } else {
-                    System.out.println("NOT");
-                }
-            });
-            System.out.println("====================");
-            if (i == 25 || i == 49) {
-                System.out.println("Test samples");
-                testSamples.forEach((k, v) -> {
-                    boolean b = perceptron.identify(k);
-                    if (b) {
-                        System.out.println("EQUAL");
-                    } else {
-                        System.out.println("NOT");
-                    }
-                });
-            }
+//            digits.forEach((k, v) -> {
+//                boolean b = perceptron.identify(k);
+//                if (b) {
+//                    System.out.println("EQUAL");
+//                } else {
+//                    System.out.println("NOT");
+//                }
+//            });
+//            System.out.println("====================");
+//            if (i == 25 || i == 49) {
+//                System.out.println("Test samples");
+//                testSamples.forEach((k, v) -> {
+//                    boolean b = perceptron.identify(k);
+//                    if (b) {
+//                        System.out.println("EQUAL");
+//                    } else {
+//                        System.out.println("NOT");
+//                    }
+//                });
+//            }
         }
     }
 
@@ -121,11 +141,14 @@ public class Main extends Application {
     }
 
     @FXML
-    void onActonReset(ActionEvent event) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
-        result.setText("");
-        result.setBackground(null);
+    void onActionReset(ActionEvent event) {
+        trainingSamples.clear();
+        trainingSamplesCountTextField.setText(String.valueOf(0));
+    }
+
+    @FXML
+    void onActionClear(ActionEvent event) {
+        clearCanvas();
     }
 
     @Override
@@ -133,6 +156,13 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+    }
+
+    private void clearCanvas() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        result.setText("");
+        result.setBackground(null);
     }
 
     public static void main(String[] args) {

@@ -37,7 +37,6 @@ public class TrainingSamples {
         digits.put(Arrays.asList(1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1), 0);    //9
 
 
-        testSamples.put(Arrays.asList(1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1), 1);    //5
         testSamples.put(Arrays.asList(1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1), 0);    //5
         testSamples.put(Arrays.asList(1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1), 0);    //5
         testSamples.put(Arrays.asList(1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1), 0);    //5
