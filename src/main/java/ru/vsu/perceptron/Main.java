@@ -73,7 +73,7 @@ public class Main extends Application {
 
     @FXML
     void onActionTrain(ActionEvent event) {
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 3; i++) {
             System.out.println("==iteration " + i + " ==");
             perceptron.train(trainingSamples);
             System.out.println("Trained weights: " + perceptron.getWeights());
@@ -142,13 +142,17 @@ public class Main extends Application {
 
     @FXML
     void onActionReset(ActionEvent event) {
-        trainingSamples.clear();
-        trainingSamplesCountTextField.setText(String.valueOf(0));
+        clearTrainingSamples();
     }
 
     @FXML
     void onActionClear(ActionEvent event) {
         clearCanvas();
+    }
+
+    private void clearTrainingSamples(){
+        trainingSamples.clear();
+        trainingSamplesCountTextField.setText(String.valueOf(0));
     }
 
     @Override
@@ -163,6 +167,14 @@ public class Main extends Application {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         result.setText("");
         result.setBackground(null);
+    }
+
+
+    @FXML
+    void onActionResetAll(ActionEvent event) {
+        clearCanvas();
+        perceptron = new Perceptron(ROWS_COUNT * COLS_COUNT);
+        clearTrainingSamples();
     }
 
     public static void main(String[] args) {

@@ -30,7 +30,7 @@
                         <Button mnemonicParsing="false" onAction="#onActionAddTrainingSample" prefHeight="50.0" prefWidth="152.0" text="Add training sample" />
                         <VBox prefHeight="50.0" prefWidth="147.0">
                            <children>
-                              <Label alignment="CENTER" prefHeight="35.0" prefWidth="147.0" text="Training samples loaded" textAlignment="CENTER" />
+                              <Label alignment="CENTER" prefHeight="35.0" prefWidth="147.0" text="Training samples count" textAlignment="CENTER" />
                               <HBox prefHeight="0.0" prefWidth="147.0">
                                  <children>
                                     <TextField fx:id="trainingSamplesCountTextField" prefHeight="24.0" prefWidth="147.0" />
@@ -42,6 +42,7 @@
                      </children>
                   </HBox>
                   <Label fx:id="result" alignment="CENTER" prefHeight="50.0" prefWidth="300.0" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#onActionResetAll" prefHeight="51.0" prefWidth="300.0" text="RESET ALL" />
                </children>
             </VBox>
          </children>
